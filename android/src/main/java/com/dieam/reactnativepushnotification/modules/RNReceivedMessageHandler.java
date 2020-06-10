@@ -51,28 +51,26 @@ public class RNReceivedMessageHandler {
         }
 
         Map<String, String> notificationData = message.getData();
-
-        // Copy `twi_body` to `message` to support Twilio
-        if (notificationData.containsKey("twi_body")) {
-            bundle.putString("message", notificationData.get("twi_body"));
+        JSONObject btxNotificaionData = null;
+        if (notificationData.containsKey("btx_notification")) {
+            btxNotificaionData = getPushData(notificationData.get("btx_notification"));
         }
-        JSONObject data = getPushData(notificationData.get("data"));
 
-        if (data != null) {
+        if (btxNotificaionData != null) {
             if (!bundle.containsKey("message")) {
-                bundle.putString("message", data.optString("alert", null));
+                bundle.putString("message", btxNotificaionData.optString("message", null));
             }
             if (!bundle.containsKey("title")) {
-                bundle.putString("title", data.optString("title", null));
+                bundle.putString("title", btxNotificaionData.optString("title", null));
             }
             if (!bundle.containsKey("sound")) {
-                bundle.putString("soundName", data.optString("sound", null));
+                bundle.putString("soundName", btxNotificaionData.optString("soundName", null));
             }
             if (!bundle.containsKey("color")) {
-                bundle.putString("color", data.optString("color", null));
+                bundle.putString("color", btxNotificaionData.optString("color", null));
             }
 
-            final int badge = data.optInt("badge", -1);
+            final int badge = btxNotificaionData.optInt("badge", -1);
             if (badge >= 0) {
                 ApplicationBadgeHelper.INSTANCE.setApplicationIconBadgeNumber(mFirebaseMessagingService, badge);
             }

@@ -1,7 +1,7 @@
 {
-  "name": "react-native-push-notification",
+  "name": "@btx/react-native-push-notification",
   "version": "3.5.2",
-  "description": "React Native Local and Remote Notifications",
+  "description": "React Native Remote Push Notifications",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,6 +29,6 @@
   "peerDependencies": {
     "react-native": ">=0.33"
   },
-  "author": "zo0r <http://zo0r.me>",
+  "author": "Breakthrough Health",
   "license": "MIT"
 }
