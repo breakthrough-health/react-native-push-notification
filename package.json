@@ -1,6 +1,6 @@
 {
   "name": "@btx/react-native-push-notification",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "description": "React Native Remote Push Notifications",
   "main": "index.js",
   "scripts": {
