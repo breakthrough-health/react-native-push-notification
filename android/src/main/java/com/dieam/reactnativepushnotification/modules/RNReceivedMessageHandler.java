@@ -142,9 +142,11 @@ public class RNReceivedMessageHandler {
             jsDelivery.notifyRemoteFetch(bundle);
         }
 
-        Log.v(LOG_TAG, "sendNotification: " + bundle);
+        Log.i(LOG_TAG, "Notification prepared: " + bundle);
+        Log.i(LOG_TAG, "Foreground info -> config.getNotificationForeground(): " + config.getNotificationForeground() + "Foreground: " + isForeground);
 
         if (config.getNotificationForeground() || !isForeground) {
+            Log.i(LOG_TAG, "Sending out notification");
             Application applicationContext = (Application) context.getApplicationContext();
             RNPushNotificationHelper pushNotificationHelper = new RNPushNotificationHelper(applicationContext);
             pushNotificationHelper.sendToNotificationCentre(bundle);
