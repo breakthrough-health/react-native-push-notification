@@ -48,7 +48,7 @@ import static com.dieam.reactnativepushnotification.modules.RNPushNotificationAt
 public class RNPushNotificationHelper {
     public static final String PREFERENCES_KEY = "rn_push_notification";
     private static final long DEFAULT_VIBRATION = 300L;
-    private static final String NOTIFICATION_CHANNEL_ID = "rn-push-notification-channel-id";
+    private static final String CHAT_NOTIFICATION_CHANNEL_ID = "emilyn-firebase-chat-notification-channel";
 
     private Context context;
     private RNPushNotificationConfig config;
@@ -183,7 +183,7 @@ public class RNPushNotificationHelper {
             Resources res = context.getResources();
             String packageName = context.getPackageName();
 
-            String channel_id = NOTIFICATION_CHANNEL_ID;
+            String channel_id = CHAT_NOTIFICATION_CHANNEL_ID;
 
             String title = bundle.getString("title");
             if (title == null) {
@@ -238,7 +238,7 @@ public class RNPushNotificationHelper {
                         break;	
                     case "none":	
                         importance = NotificationManager.IMPORTANCE_NONE;	
-                        break;	
+                        break;	i
                     case "unspecified":	
                         importance = NotificationManager.IMPORTANCE_UNSPECIFIED;	
                         break;	
@@ -246,8 +246,6 @@ public class RNPushNotificationHelper {
                         importance = NotificationManager.IMPORTANCE_HIGH;	
                 }	
             }	
-
-            channel_id = channel_id + "-" + importance;
 
             int visibility = NotificationCompat.VISIBILITY_PUBLIC;
             final String visibilityString = bundle.getString("visibility");
@@ -374,10 +372,6 @@ public class RNPushNotificationHelper {
                     soundName = "default";
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // API 26 and higher
-                    channel_id = channel_id + "-" + soundName;
-                }
-
                 notification.setSound(soundUri);
             }
 
@@ -414,8 +408,6 @@ public class RNPushNotificationHelper {
                 long vibration = bundle.containsKey("vibration") ? (long) bundle.getDouble("vibration") : DEFAULT_VIBRATION;
                 if (vibration == 0)
                     vibration = DEFAULT_VIBRATION;
-                
-                channel_id = channel_id + "-" + vibration;
 
                 vibratePattern = new long[]{0, vibration};
 
@@ -683,21 +675,6 @@ public class RNPushNotificationHelper {
         } else {
             editor.apply();
         }
-    }
-
-    public void checkOrCreateDefaultChannel() {
-      NotificationManager manager = notificationManager();
-
-      int importance = NotificationManager.IMPORTANCE_HIGH;
-      Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-      
-      // Instanciate a default channel with default sound.
-      String channel_id_sound = NOTIFICATION_CHANNEL_ID + "-default-" + importance + "-" + DEFAULT_VIBRATION;
-      checkOrCreateChannel(manager, channel_id_sound, soundUri, importance, new long[] {0, DEFAULT_VIBRATION});
-
-      // Instanciate a default channel without sound defined for backward compatibility.
-      String channel_id_no_sound = NOTIFICATION_CHANNEL_ID + "-" + importance + "-" + DEFAULT_VIBRATION;
-      checkOrCreateChannel(manager, channel_id_no_sound, null, importance, new long[] {0, DEFAULT_VIBRATION});
     }
 
     private void checkOrCreateChannel(NotificationManager manager, String channel_id, Uri soundUri, int importance, long[] vibratePattern) {
