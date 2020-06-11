@@ -160,6 +160,7 @@ public class RNPushNotificationHelper {
         }
     }
 
+    // Core method for scheduling firebase notifications as well
     public void sendToNotificationCentre(Bundle bundle) {
         try {
             Class intentClass = getMainActivityClass();
@@ -339,11 +340,6 @@ public class RNPushNotificationHelper {
 
             notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
 
-            Intent intent = new Intent(context, intentClass);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            bundle.putBoolean("userInteraction", true);
-            intent.putExtra("notification", bundle);
-
             Uri soundUri = null;
 
             if (!bundle.containsKey("playSound") || bundle.getBoolean("playSound")) {
@@ -396,6 +392,12 @@ public class RNPushNotificationHelper {
             }
 
             int notificationID = Integer.parseInt(notificationIdString);
+
+            Intent intent = new Intent(context, intentClass);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            bundle.putBoolean("userInteraction", true);
+            intent.putExtra("notification", bundle);
+            bundle.putString("channel", CHAT_NOTIFICATION_CHANNEL_ID);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationID, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);

@@ -145,6 +145,10 @@ public class RNReceivedMessageHandler {
             Application applicationContext = (Application) context.getApplicationContext();
             RNPushNotificationHelper pushNotificationHelper = new RNPushNotificationHelper(applicationContext);
             pushNotificationHelper.sendToNotificationCentre(bundle);
+        } else if (isForeground) {
+            // In case something received while the app is being used
+            bundle.putBoolean("notification_clicked", true);
+            jsDelivery.notifyNotification(bundle);
         }
     }
 

@@ -32,13 +32,6 @@ public class RNPushNotificationJsDelivery {
         }
     }
 
-    void notifyRemoteFetch(Bundle bundle) {
-        String bundleString = convertJSON(bundle);
-        WritableMap params = Arguments.createMap();
-        params.putString("dataJSON", bundleString);
-        sendEvent("remoteFetch", params);
-    }
-
     void notifyNotification(Bundle bundle) {
         String bundleString = convertJSON(bundle);
 
