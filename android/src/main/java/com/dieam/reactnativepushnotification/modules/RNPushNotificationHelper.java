@@ -238,7 +238,7 @@ public class RNPushNotificationHelper {
                         break;	
                     case "none":	
                         importance = NotificationManager.IMPORTANCE_NONE;	
-                        break;	i
+                        break;
                     case "unspecified":	
                         importance = NotificationManager.IMPORTANCE_UNSPECIFIED;	
                         break;	
