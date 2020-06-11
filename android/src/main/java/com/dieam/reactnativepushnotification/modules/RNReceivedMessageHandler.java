@@ -135,7 +135,6 @@ public class RNReceivedMessageHandler {
         RNPushNotificationJsDelivery jsDelivery = new RNPushNotificationJsDelivery(context);
         bundle.putBoolean("foreground", isForeground);
         bundle.putBoolean("userInteraction", false);
-        jsDelivery.notifyNotification(bundle);
 
         Log.i(LOG_TAG, "Notification prepared: " + bundle);
         Log.i(LOG_TAG, "Foreground info -> config.getNotificationForeground(): " + config.getNotificationForeground() + "Foreground: " + isForeground);
