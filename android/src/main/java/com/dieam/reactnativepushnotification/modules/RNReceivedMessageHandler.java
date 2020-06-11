@@ -51,26 +51,26 @@ public class RNReceivedMessageHandler {
         }
 
         Map<String, String> notificationData = message.getData();
-        JSONObject btxNotificaionData = null;
+        JSONObject btxNotificationData = null;
         if (notificationData.containsKey("btx_notification")) {
-            btxNotificaionData = getPushData(notificationData.get("btx_notification"));
+            btxNotificationData = getPushData(notificationData.get("btx_notification"));
         }
 
-        if (btxNotificaionData != null) {
+        if (btxNotificationData != null) {
             if (!bundle.containsKey("message")) {
-                bundle.putString("message", btxNotificaionData.optString("message", null));
+                bundle.putString("message", btxNotificationData.optString("message", null));
             }
             if (!bundle.containsKey("title")) {
-                bundle.putString("title", btxNotificaionData.optString("title", null));
+                bundle.putString("title", btxNotificationData.optString("title", null));
             }
             if (!bundle.containsKey("sound")) {
-                bundle.putString("soundName", btxNotificaionData.optString("soundName", null));
+                bundle.putString("soundName", btxNotificationData.optString("soundName", null));
             }
             if (!bundle.containsKey("color")) {
-                bundle.putString("color", btxNotificaionData.optString("color", null));
+                bundle.putString("color", btxNotificationData.optString("color", null));
             }
 
-            final int badge = btxNotificaionData.optInt("badge", -1);
+            final int badge = btxNotificationData.optInt("badge", -1);
             if (badge >= 0) {
                 ApplicationBadgeHelper.INSTANCE.setApplicationIconBadgeNumber(mFirebaseMessagingService, badge);
             }
@@ -136,11 +136,6 @@ public class RNReceivedMessageHandler {
         bundle.putBoolean("foreground", isForeground);
         bundle.putBoolean("userInteraction", false);
         jsDelivery.notifyNotification(bundle);
-
-        // If contentAvailable is set to true, then send out a remote fetch event
-        if (bundle.getString("contentAvailable", "false").equalsIgnoreCase("true")) {
-            jsDelivery.notifyRemoteFetch(bundle);
-        }
 
         Log.i(LOG_TAG, "Notification prepared: " + bundle);
         Log.i(LOG_TAG, "Foreground info -> config.getNotificationForeground(): " + config.getNotificationForeground() + "Foreground: " + isForeground);
