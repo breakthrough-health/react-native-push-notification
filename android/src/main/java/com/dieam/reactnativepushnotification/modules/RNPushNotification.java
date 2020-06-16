@@ -132,6 +132,9 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
                   public void onComplete(@NonNull Task<InstanceIdResult> task) {
                       if (!task.isSuccessful()) {
                           Log.e(LOG_TAG, "exception", task.getException());
+                          WritableMap errorParams = Arguments.createMap();
+                          errorParams.putString("message", task.getException().getMessage());
+                          fMjsDelivery.sendEvent("fcmError", errorParams);
                           return;
                       }
 

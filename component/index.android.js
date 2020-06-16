@@ -11,6 +11,7 @@ var _notifHandlers = new Map();
 var DEVICE_NOTIF_EVENT = 'remoteNotificationReceived';
 var NOTIF_REGISTER_EVENT = 'remoteNotificationsRegistered';
 var REMOTE_FETCH_EVENT = 'remoteFetch';
+var FCM_ERROR = 'fcmError';
 
 var NotificationsComponent = function() {
 
@@ -92,6 +93,13 @@ NotificationsComponent.prototype.addEventListener = function(type, handler) {
 					var notificationData = JSON.parse(notifData.dataJSON)
 					handler(notificationData);
 				}
+			}
+		);
+	} else if (type === 'fcmError') {
+		listener = DeviceEventEmitter.addListener(
+			FCM_ERROR,
+			function(error) {
+				handler(error);
 			}
 		);
 	}

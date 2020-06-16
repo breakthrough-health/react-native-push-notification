@@ -58,6 +58,8 @@ Notifications.configure = function(options) {
 
 	if ( typeof options.onError !== 'undefined' ) {
 		this.onError = options.onError;
+	} else {
+		this.onError = (e) => {}
 	}
 
 	if ( typeof options.onNotification !== 'undefined' ) {
@@ -79,6 +81,7 @@ Notifications.configure = function(options) {
 		this.callNative( 'addEventListener', [ 'register', this._onRegister ] );
 		this.callNative( 'addEventListener', [ 'notification', this._onNotification ] );
 		this.callNative( 'addEventListener', [ 'localNotification', this._onNotification ] );
+		this.callNative( 'addEventListener', [ 'fcmError', this.onError ] );
 		Platform.OS === 'android' ? this.callNative( 'addEventListener', [ 'remoteFetch', this._onRemoteFetch ] ) : null
 
 		this.isLoaded = true;
@@ -108,6 +111,7 @@ Notifications.unregister = function() {
 	this.callNative( 'removeEventListener', [ 'register', this._onRegister ] )
 	this.callNative( 'removeEventListener', [ 'notification', this._onNotification ] )
 	this.callNative( 'removeEventListener', [ 'localNotification', this._onNotification ] )
+	this.callNative( 'removeEventListener', [ 'fcmError', this.onError ] )
 	Platform.OS === 'android' ? this.callNative( 'removeEventListener', [ 'remoteFetch', this._onRemoteFetch ] ) : null
 	this.isLoaded = false;
 };
